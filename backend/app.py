@@ -11,7 +11,7 @@ from flask import Flask, jsonify, request
 from database import init_db
 from routes import solute_bp, membrane_bp, predict_bp
 
-app = Flask(__name__, static_folder='frontend/dist', static_url_path='')
+app = Flask(__name__, static_folder='frontend', static_url_path='')
 
 # Register blueprints
 app.register_blueprint(solute_bp)
