@@ -6,7 +6,8 @@ import xgboost as xgb
 import numpy as np
 from typing import List, Optional
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "..", "XGBoost_mem_OMPS_model.json")
+# Use environment variable or workspace default
+MODEL_PATH = os.environ.get('MODEL_PATH', os.path.join(os.path.dirname(__file__), "..", "..", "..", "XGBoost_mem_OMPS_model.json"))
 
 # Feature names as expected by the model (in order)
 # Model feature names: ['MWCO', 'Contact angle', 'Zeta potential', 'MW', 'Neutral charge', 'Neutral logD']

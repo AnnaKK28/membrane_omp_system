@@ -5,7 +5,10 @@ import sqlite3
 import os
 from typing import Optional
 
-DATABASE_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "membrane_omp.db")
+# Use /tmp for Railway (stateless container), fall back to local directory
+DATA_DIR = os.environ.get('DATA_DIR', '/tmp')
+os.makedirs(DATA_DIR, exist_ok=True)
+DATABASE_PATH = os.environ.get('DATABASE_PATH', os.path.join(DATA_DIR, 'membrane_omp.db'))
 
 
 def get_db_connection():

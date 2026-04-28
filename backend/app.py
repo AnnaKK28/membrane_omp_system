@@ -45,17 +45,38 @@ def internal_error(e):
 
 
 def main():
+    import os
+    
+    # Use /tmp for Railway (stateless container)
+    data_dir = os.environ.get('DATA_DIR', '/tmp')
+    os.makedirs(data_dir, exist_ok=True)
+    
     # Initialize database on startup
     print("Initializing database...")
     init_db()
 
-    # Import and run data import
+    # Import and run data import (only if DB is empty)
     print("Loading data from Excel...")
     try:
-        import import_data
-        import_data.import_data()
+        from database import get_db_connection
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM solute")
+        count = cursor.fetchone()[0]
+        conn.close()
+        
+        if count == 0:
+            import import_data
+            import_data.import_data()
+        else:
+            print(f"Database already has {count} solutes, skipping import.")
     except Exception as e:
-        print(f"Warning: Could not import data: {e}")
+        print(f"Warning: Could not check/import data: {e}")
+        try:
+            import import_data
+            import_data.import_data()
+        except:
+            pass
 
     # Load ML model
     print("Loading ML model...")

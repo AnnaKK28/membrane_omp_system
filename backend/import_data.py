@@ -7,9 +7,10 @@ import os
 
 sys.path.insert(0, os.path.dirname(__file__))
 
-from database import get_db_connection, init_db
+from database import get_db_connection, init_db, DATABASE_PATH
 
-DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "data_set.xlsx")
+# Use environment variable or workspace default
+DATA_PATH = os.environ.get('DATA_PATH', os.path.join(os.path.dirname(__file__), "..", "..", "data_set.xlsx"))
 
 
 def import_data(excel_path: str = None):
