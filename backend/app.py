@@ -66,8 +66,9 @@ def main():
     except Exception as e:
         print(f"Warning: Could not load ML model: {e}")
 
-    print("Starting Flask server on http://0.0.0.0:5000")
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    port = int(os.environ.get('PORT', 5000))
+    print(f"Starting Flask server on http://0.0.0.0:{port}")
+    app.run(host='0.0.0.0', port=port, debug=False)
 
 
 if __name__ == '__main__':
